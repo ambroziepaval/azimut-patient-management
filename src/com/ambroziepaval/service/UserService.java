@@ -12,13 +12,14 @@ import java.util.Date;
 
 public class UserService {
 
-    private UserDao userDao;
-    private MedicDao medicDao;
-    private PatientDao patientDao;
+    private final UserDao userDao;
+    private final MedicDao medicDao;
+    private final PatientDao patientDao;
 
     public UserService() {
         userDao = new UserDao();
         medicDao = new MedicDao();
+        patientDao = new PatientDao();
     }
 
     public boolean correctCredentials(String username, String password) {
@@ -31,8 +32,7 @@ public class UserService {
         User savedUser = userDao.save(user);
 
         Medic medic = new Medic(lastName, firstName, birthDate, specialty, savedUser);
-        medicDao.save(medic);
-        return medicDao.findByUserId(savedUser.getId());
+        return medicDao.save(medic);
     }
 
     public Patient createPatient(String username, String password, String email, String firstName, String lastName, Date birthDate) {
@@ -41,12 +41,15 @@ public class UserService {
         User savedUser = userDao.save(user);
 
         Patient patient = new Patient(lastName, firstName, birthDate, savedUser);
-        patientDao.save(patient);
-        return patientDao.findByUserId(savedUser.getId());
+        return patientDao.save(patient);
     }
 
     public User login(String username, String password) {
-        // TODO
+        if (userDao.correctCredentials(username, password)) {
+            return userDao.findByUsername(username);
+        }
+
+        System.out.println("Invalid user credentials!");
         return null;
     }
 }

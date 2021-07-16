@@ -14,7 +14,10 @@ create table user (
 );
 insert into user(username, password, email, type) value ('drHouse', 'password', 'drHouse@mailinator.com', 'MEDIC');
 insert into user(username, password, email, type) value ('john.doe', 'password', 'john.doe@mailinator.com', 'PACIENT');
+insert into user(username, password, email, type) value ('jane.doe', 'password', 'jane.doe@mailinator.com', 'PACIENT');
+insert into user(username, password, email, type) value ('johnny.doe', 'password', 'johnny.doe@mailinator.com', 'PACIENT');
 select * from user;
+alter table user add constraint username_uc unique (username);
 
 create table medic (
 	id int auto_increment,
@@ -39,7 +42,9 @@ create table patient (
     primary key(id)
 );
 insert into patient(last_name, first_name, birth_date, user_id) values ('Doe', 'John', '1993-08-29', 2);
-select * from pacient;
+insert into patient(last_name, first_name, birth_date, user_id) values ('Doe', 'Jane', '2001-08-29', 6);
+insert into patient(last_name, first_name, birth_date, user_id) values ('Doe', 'Johnny', '2010-10-10', 7);
+select * from patient;
 
 
 create table appointment (
@@ -66,6 +71,9 @@ create table patient_file (
     primary key(id)
 );
 insert into patient_file(patient_id, medic_id) values (1,1);
+insert into patient_file(patient_id, medic_id) values (3,1);
+insert into patient_file(patient_id, medic_id) values (4,1);
+select * from patient_file;
 
 select exists(
 	select * from user where username = 'drHouse' and password = 'password'

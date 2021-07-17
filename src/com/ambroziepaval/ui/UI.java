@@ -3,6 +3,7 @@ package com.ambroziepaval.ui;
 import com.ambroziepaval.model.Medic;
 import com.ambroziepaval.model.Patient;
 import com.ambroziepaval.model.User;
+import com.ambroziepaval.service.MedicService;
 import com.ambroziepaval.service.PatientService;
 import com.ambroziepaval.service.UserService;
 
@@ -15,10 +16,12 @@ public class UI {
 
     private final UserService userService;
     private final PatientService patientService;
+    private final MedicService medicService;
 
     public UI() {
         userService = new UserService();
         patientService = new PatientService();
+        medicService = new MedicService();
     }
 
     public void doingStuffOnUI() {
@@ -33,8 +36,22 @@ public class UI {
         List<Patient> medicPatients = patientService.getPatientsByMedicUserId(loggedInUser.getId());
         medicPatients.forEach(System.out::println);
 
-        // TODO login as PATIENT
+        System.out.println();
 
+        // login as PATIENT
+        username = "johnny.doe";
+        login(username, password);
+        // create new appointment
+        List<Medic> allMedics = medicService.getAllMedics();
+        allMedics.forEach(System.out::println);
+        // select appointment date
+        Date appointmentDate = new Date();
+        boolean created = patientService.makeAppointment(loggedInUser.getId(), allMedics.get(0).getId(), appointmentDate);
+        if (created) {
+            System.out.println("--> Appointment created on " + appointmentDate);
+        } else {
+            System.err.println("Could not create appointment.");
+        }
     }
 
     public void createMedic() {

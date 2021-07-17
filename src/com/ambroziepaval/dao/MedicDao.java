@@ -8,8 +8,39 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MedicDao extends GenericDao {
+
+    public List<Medic> findAll() {
+        String query = """
+                select medic.id, last_name, first_name, birth_date, specialty
+                from medic
+                """;
+
+        List<Medic> medicList = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("medic.id");
+                String lastName = resultSet.getString("last_name");
+                String firstName = resultSet.getString("first_name");
+                Date birthDate = resultSet.getDate("birth_date");
+                String specialty = resultSet.getString("specialty");
+
+                Medic medic = new Medic(id, lastName, firstName, birthDate, specialty, null);
+                medicList.add(medic);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return medicList;
+    }
 
     public Medic findByUserId(int userId) {
         String query = """

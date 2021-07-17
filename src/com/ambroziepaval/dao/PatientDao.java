@@ -35,7 +35,7 @@ public class PatientDao extends GenericDao {
 
     public Patient findByUserId(int userId) {
         String query = """
-                select id, last_name, first_name, birth_date, user_id, username, password, email, type
+                select patient.id, last_name, first_name, birth_date, user_id, username, password, email, type
                 from patient
                 inner join user on user.id = patient.user_id
                 where user.id = ?
@@ -46,7 +46,7 @@ public class PatientDao extends GenericDao {
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                int id = resultSet.getInt("patient.id");
                 String lastName = resultSet.getString("last_name");
                 String firstName = resultSet.getString("first_name");
                 Date birthDate = resultSet.getDate("birth_date");

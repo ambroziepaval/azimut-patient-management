@@ -74,7 +74,7 @@ public class PatientDao extends GenericDao {
                 inner join patient_file on patient.id = patient_file.patient_id
                 inner join medic on medic.id = patient_file.medic_id
                 inner join user on user.id = medic.user_id
-                where user.id = ?   
+                where user.id = ?
                 """;
 
         List<Patient> medicPatients = new ArrayList<>();

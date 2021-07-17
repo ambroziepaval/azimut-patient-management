@@ -31,6 +31,7 @@ create table medic (
 );
 insert into medic(last_name, first_name, birth_date, specialty, user_id) values ('House', 'Gregory', '1989-06-11', 'Diagnostician', 1);
 select * from medic;
+alter table medic add constraint user_id_uc unique (user_id);
 
 create table patient (
 	id int auto_increment,
@@ -45,6 +46,7 @@ insert into patient(last_name, first_name, birth_date, user_id) values ('Doe', '
 insert into patient(last_name, first_name, birth_date, user_id) values ('Doe', 'Jane', '2001-08-29', 6);
 insert into patient(last_name, first_name, birth_date, user_id) values ('Doe', 'Johnny', '2010-10-10', 7);
 select * from patient;
+alter table patient add constraint user_id_uc unique (user_id);
 
 
 create table appointment (
